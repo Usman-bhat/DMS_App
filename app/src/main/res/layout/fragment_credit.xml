@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    tools:context=".ui.credit.CreditFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:orientation="vertical">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:cardCornerRadius="4dp"
+        android:layout_margin="5dp"
+        android:elevation="10dp">
+        <ProgressBar
+            android:id="@+id/credit_credit_pbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/credit_pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="3dp">
+            <Button
+                android:id="@+id/add_credit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/add_credit"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/ic_baseline_add_24"
+                android:background="@drawable/button_background_blue"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+        </LinearLayout>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="4dp"
+        android:layout_margin="1dp"
+        android:layout_marginTop="15dp"
+        android:elevation="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Spinner
+                    android:id="@+id/years_spinner"
+                    android:layout_width="80dp"
+                    android:layout_weight="0.1"
+                    android:background="@drawable/spinner_bg"
+                    android:layout_height="25dp"
+                    android:layout_margin="8dp"
+                    android:spinnerMode="dropdown"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/credit_details"
+                    android:textSize="15dp"
+                    android:layout_weight="0.9"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:background="@drawable/custom_edittext"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+                <Spinner
+                    android:id="@+id/months_spinner"
+                    android:layout_width="80dp"
+                    android:layout_weight="0.1"
+                    android:background="@drawable/spinner_bg"
+                    android:layout_height="25dp"
+                    android:layout_margin="8dp"
+                    android:spinnerMode="dropdown"/>
+
+
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/credit_rec_pbar"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/credit_rec_view"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

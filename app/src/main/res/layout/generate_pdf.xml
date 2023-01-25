@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reciept_layout"
+    android:layout_width="match_parent"
+    android:layout_margin="3dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp">
+        <LinearLayout
+            android:background="#EAE29C"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/mlogo"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="65dp"
+                        android:textColor="#44546A"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/noorikshda"
+                        android:text="مدرسہ مصباح العلوم بٹہ گنڈ\n وئرئناگ اسلام آباد "
+                        android:layout_margin="5dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="17sp"
+                    android:text="@string/debitAlert"
+                    />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/noorikshda"
+                    android:textStyle="bold"
+                    android:text="@string/pdf_lagend"
+                />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/noorikshda"
+                    android:gravity="center"
+                    android:text="@string/dua_usman"
+                    android:layout_margin="2dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_layout_to_hide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal">
+                <Button
+                    android:id="@+id/generate_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="@drawable/custom_border"
+                    android:layout_weight="0.5"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="Generate"
+                    android:layout_margin="8dp"/>
+                <Button
+                    android:id="@+id/cancel_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="@drawable/custom_border"
+                    android:layout_weight="0.5"
+                    android:text="Cancel"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_margin="8dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

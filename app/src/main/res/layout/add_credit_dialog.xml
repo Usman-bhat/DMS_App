@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="20dp"
+    android:layout_margin="3dp"
+    app:cardElevation="20dp"
+    android:elevation="20dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+        <EditText
+            android:id="@+id/credit_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:padding="8dp"
+            android:hint="@string/amount"
+            android:background="@drawable/custom_edittext"
+            android:layout_margin="8dp"/>
+        <EditText
+            android:id="@+id/credit_amount_by"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:padding="8dp"
+            android:hint="@string/given_by"
+            android:background="@drawable/custom_edittext"
+            android:layout_margin="8dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+        <EditText
+            android:id="@+id/credit_reciept_no"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:padding="8dp"
+            android:hint="@string/receipt_no"
+            android:background="@drawable/custom_edittext"
+            android:layout_margin="8dp"/>
+        <EditText
+            android:id="@+id/credit_reciept_by"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:padding="8dp"
+            android:hint="@string/receipt_by"
+            android:background="@drawable/custom_edittext"
+            android:layout_margin="8dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+        <Spinner
+            android:id="@+id/credit_for_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/custom_edittext"
+            android:layout_margin="8dp"/>
+        <Spinner
+            android:id="@+id/credit_mode_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/custom_edittext"
+            android:layout_margin="8dp"/>
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/add_credit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/submit"/>
+        <ProgressBar
+            android:id="@+id/credit_pbar"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"/>
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/cancel_credit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/cancel"/>
+
+<!--    </ScrollView>-->
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

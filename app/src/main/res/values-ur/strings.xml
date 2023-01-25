@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DMS</string>
+    <string name="title_home">ہوم</string>
+    <string name="title_dashboard">آمدنی</string>
+    <string name="title_notifications">خرچہ</string>
+    <string name="print_report">پرنٹ رپوٹ</string>
+    <string name="pdf_lagend">یہ اوپشن سلکٹ کئے ہوے سال اور مہینے کے خرچات کی PDF بنا کر دیتا ہے</string>
+    <string name="print">پرنٹ</string>
+    <string name="dua_usman">طلبگار دعا محمد عثمان</string>
+    <string name="debitAlert">خرچہ </string>
+    <string name="nodatafound">اس سال اور مہینے  کا کچھ ڈیٹا نہیں </string>
+    <string name="unknownerror">نامعلوم خرابی پیش آگئی</string>
+    <string name="error500">500! خرابی ہو گئی۔</string>
+    <string name="insertedsuccessfully">ڈیٹا کامیابی سے داخل کیا گیا۔</string>
+
+<!--    Login-->
+    <string name="login">لاگ ان کریں</string>
+    <string name="login_email_hint">امیل</string>
+    <string name="login_password_hint">پاسوڈ</string>
+<!--    home-->
+    <string name="creditchart">آمدنی چارٹ</string>
+    <string name="debitchart">آمدنی چارٹ</string>
+<!--    credit f-->
+    <string name="given_by_honer">عزت کے ساتھ دیا گیا</string>
+    <string name="credit_for">for</string>
+    <string name="recp_footer_txt">مہتمم مدرسة مصباح العلوم بٹہ گنڈ</string>
+    <string name="cred_footer_it">ڈیجیٹل دستخط بذریعہ آئی ٹی سیل مصباح العلوم</string>
+    <string name="share">شیئر</string>
+
+    <string name="amount">رقم</string>
+    <string name="given_by">دینے والا</string>
+    <string name="receipt_no">رسید نمبر.</string>
+    <string name="receipt_by">رسید دینے والا</string>
+    <string name="submit">جمع کرائیں</string>
+    <string name="cancel">منسوخ</string>
+    <string name="add_credit">جمع آمدنی</string>
+    <string name="credit_details">تفصیلات آمدنی </string>
+    <string name="creditchartdesc">مہوار آمدنی </string>
+
+    <!--    debit f-->
+    <string name="add_debit">جمع خرچات</string>
+    <string name="debit_details">تفصیلات خرچات </string>
+    <string name="debitchartdesc">مہوار خرچات </string>
+    <string name="debited_by">ڈیبیٹر </string>
+
+
+    <!--    PDF-->
+    <string name="date">تاریخ</string>
+    <string name="debited_for">لئے</string>
+    <string name="pdf_header">مہینے کے اخراجات کے لیے ڈیبٹ کی گئی رقم کی رپورٹ</string>
+    <string name="pdf_footer">یہ رپورٹ ڈیجیٹل طور پر تیار کی گئی ہے اور مدرسہ کے مہتمم کے دستخط اور مہر کے بغیر درست نہیں ہے۔</string>
+
+    <!--    Charts -->
+    <string-array name="credit_for_chart">
+        <item>غذا</item>
+        <item>تعمیرات</item>
+        <item>بلز</item>
+        <item>تنخواہ</item>
+        <item>دوسرے</item>
+    </string-array>
+
+    <string name="food">غذا</string>
+    <string name="construction">تعمیرات</string>
+    <string name="bills">بلز</string>
+    <string name="pay">تنخواہ</string>
+    <string name="others">دوسرے</string>
+</resources>

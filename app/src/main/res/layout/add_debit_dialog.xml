@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="3dp"
+        app:cardElevation="20dp">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#57FFFF00"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
+            <EditText
+                android:id="@+id/debit_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:padding="8dp"
+                android:hint="@string/amount"
+                android:background="@drawable/custom_edittext"
+                android:layout_margin="8dp"/>
+            <EditText
+                android:id="@+id/debited_by"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:padding="8dp"
+                android:hint="@string/debited_by"
+                android:background="@drawable/custom_edittext"
+                android:layout_margin="8dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
+            <Spinner
+                android:id="@+id/debit_for_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/custom_edittext"
+                android:layout_margin="8dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/debit_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="0.5"
+                android:padding="8dp"
+                android:text="Please Enter Correct Details"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#FF0000"
+                android:background="@drawable/custom_edittext"
+                android:layout_margin="8dp"/>
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/add_debit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/submit"/>
+            <ProgressBar
+                android:id="@+id/debit_pbar"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"/>
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/cancel_debit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/cancel"/>
+
+        <!--    </ScrollView>-->
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

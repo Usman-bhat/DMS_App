@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 //        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 
         setLangSP(MainActivity.this);
+        //add all
 
         binding = ActivityMainBinding.inflate( getLayoutInflater() );
         setContentView( binding.getRoot() );

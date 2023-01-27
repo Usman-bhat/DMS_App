@@ -6,12 +6,10 @@ import static com.usman.dms.StaticData.CREDIT_PIE_LABEL;
 import static com.usman.dms.StaticData.GETSETURL;
 import static com.usman.dms.StaticData.LOGINSP;
 import static com.usman.dms.StaticData.TAG;
-import static com.usman.dms.StaticData.URL;
 import static com.usman.dms.StaticData.YEAR;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,12 +30,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -85,6 +81,8 @@ public class CreditFragment extends Fragment {
     CreditRecInterface creditRecInterface;
     ProgressBar creditRecPbar,creditCreditPbar;
     RequestQueue queue;
+    Dialog dialog ;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -93,86 +91,111 @@ public class CreditFragment extends Fragment {
                 new ViewModelProvider( this ).get( CreditViewModel.class );
         binding = FragmentCreditBinding.inflate( inflater, container, false );
         View root = binding.getRoot();
+
+        /*###########################        Shared Pref  Stuff Here             ######################################################*/
         SharedPreferences sp = getActivity().getSharedPreferences(LOGINSP, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sp.edit();
         if(!sp.contains( "accessToken" )){
             startActivity( new Intent(getActivity(), LoginActivity.class ) );
         }else{
             ACCESS_TOKEN = sp.getString( "accessToken",null );
         }
 
+        /*###########################        PieChart Stuff Here   @DONE           ######################################################*/
+        chart = binding.creditPieChart;
+        creditCreditPbar = binding.creditCreditPbar;
+        chart.setVisibility( View.GONE );
+        creditCreditPbar.setVisibility( View.VISIBLE );
+        setDebitPieChartData(chart,CREDITCHARTID,CREDIT_PIE_CENTER_TEXT,CREDIT_PIE_LABEL,YEAR);
 
-        queue = Volley.newRequestQueue( getContext() );
-        /*##########################   On Recycler View  ITem Clicked  ##############################*/
-        creditRecInterface = new CreditRecInterface() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onItemClick(int position, String data[]) {
-//                Dialog dialog = new Dialog( getContext() );
-//                dialog.setContentView( R.layout.show_credit_details_dialog );
-//                dialog.getWindow().setLayout( ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT );
-//                dialog.setCancelable( true );
-//                dialog.getWindow().setBackgroundDrawableResource( android.R.color.transparent );
-//                dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
-//
-//                TextView amount = dialog.findViewById( R.id.total_amount );
-//                TextView amountBy = dialog.findViewById( R.id.amount_by );
-//                TextView recieptBy = dialog.findViewById( R.id.amount_rec_by );
-//                TextView recieptNo = dialog.findViewById( R.id.amount_rec );
-//                TextView amountfor = dialog.findViewById( R.id.amount_for );
-//                TextView recieptDate = dialog.findViewById( R.id.amount_date );
-//                LinearLayout btnLayout = dialog.findViewById( R.id.btn_layout_to_hide );
-//                LinearLayout recLayout = dialog.findViewById( R.id.reciept_layout );
-//
-//                // data Array Rule = {"Giver Name","Amount","For","Receipt number","Reciept Given By","Date"}
-//                Button printBtn = dialog.findViewById( R.id.print_rec );
-//                Button shareBtn = dialog.findViewById( R.id.share_rec );
-//                amountBy.setText( "Name: "+data[0] );
-//                amount.setText( "Amount:  "+data[1] );
-//                amountfor.setText( "Amount For: "+data[2] );
-//                recieptBy.setText( "Receipt No: "+data[3] );
-//                recieptNo.setText( "Received By: "+data[4] );
-//                recieptDate.setText( "Date: "+data[5] );
-//                printBtn.setOnClickListener( new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        btnLayout.setVisibility( View.GONE );
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//                        builder.setCancelable(false); // if you want user to wait for some process to finish,
-//                        builder.setView(R.layout.progress_dialog);
-//                        AlertDialog dialog1 = builder.create();
-//                        dialog1.show();
-//                        saveReciept(recLayout,true,"RECIEPT-FOR-"+data[0]+"-"+ data[5] +".png");
-//                        dialog1.dismiss();
-//                        Toast.makeText( getContext(), "printing ....", Toast.LENGTH_SHORT ).show();
-//                        dialog.dismiss();
-//                    }
-//                } );
-//                shareBtn.setOnClickListener( new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        saveReciept(recLayout,false,"IMG-RECIEPT-"+data[0]+"-"+ data[5] +".png");
-//                        Toast.makeText( getContext(), "Sharing ....", Toast.LENGTH_SHORT ).show();
-//                        dialog.dismiss();
-//                    }
-//                } );
-//                dialog.show();
-//                Log.e( "me", "onItemClickitem: "+ position );
-            }
-
-            @Override
-            public void onLongItemClick(int position) {
-
-            }
-        };
-
-
-        /*##########################   Recycler View Data Load ##############################*/
+        /*###########################        RecyclerView  Stuff Here             ######################################################*/
         recyclerView = binding.creditRecView;
         creditRecPbar = binding.creditRecPbar;
         months_spinner = binding.monthsSpinner;
         years_spinner = binding.yearsSpinner;
+        setCreditRecViewData();
 
+        /*###########################       Dialog+AddCredit  Stuff Here             ######################################################*/
+        addCreditBtn  = binding.addCreditBtn;
+        addCreditBtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addCreditData();
+            }
+        } );
+//        final TextView textView = binding.textDashboard;
+//        dashboardViewModel.getText().observe( getViewLifecycleOwner(), textView::setText );
+        return root;
+    }
+
+    private void addCreditData() {
+        dialog = new Dialog( getContext() );
+        Button submitbtn, cancelbtn;
+        EditText amount,amountBy,recieptNo,recieptBy;
+        Spinner forSpinner, modeSpinner;
+        ProgressBar credit_pbar;
+        dialog.setContentView( R.layout.add_credit_dialog );
+        dialog.getWindow().setLayout( ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT );
+        dialog.setCancelable( false );
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+        dialog.getWindow().setBackgroundDrawableResource( android.R.color.transparent );
+
+
+        ArrayAdapter<CharSequence> forAdapter = ArrayAdapter.createFromResource( getContext(),R.array.credit_for, androidx.transition.R.layout.support_simple_spinner_dropdown_item );
+        ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource( getContext(),R.array.credit_mode, com.airbnb.lottie.R.layout.support_simple_spinner_dropdown_item );
+
+        forAdapter.setDropDownViewResource( androidx.appcompat.R.layout.support_simple_spinner_dropdown_item );
+        modeAdapter.setDropDownViewResource( androidx.appcompat.R.layout.support_simple_spinner_dropdown_item );
+        //                finding EditText Views
+        amount = dialog.findViewById( R.id.credit_amount );
+        amountBy = dialog.findViewById( R.id.credit_amount_by );
+        recieptBy = dialog.findViewById( R.id.credit_reciept_by );
+        recieptNo = dialog.findViewById( R.id.credit_reciept_no );
+        //setting Spinners
+        forSpinner = dialog.findViewById( R.id.credit_for_spinner );
+        modeSpinner = dialog.findViewById( R.id.credit_mode_spinner );
+        credit_pbar = dialog.findViewById( R.id.credit_pbar );
+
+        forSpinner.setAdapter( forAdapter );
+        modeSpinner.setAdapter( modeAdapter );
+
+
+//                setting Button Click
+        submitbtn = dialog.findViewById( R.id.add_credit );
+        cancelbtn = dialog.findViewById( R.id.cancel_credit );
+        submitbtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String amount1 = amount.getText().toString().trim();
+                String amountBy1 = amountBy.getText().toString().trim();
+                String recieptBy1 = recieptBy.getText().toString().trim();
+                String recieptNo1 = recieptNo.getText().toString().trim();
+                String for1 = forSpinner.getSelectedItem().toString();
+                String mode1 = modeSpinner.getSelectedItem().toString();
+                if(amount1.isEmpty() || amountBy1.isEmpty() || recieptBy1.isEmpty() ||
+                        recieptNo1.isEmpty() || for1.isEmpty() || mode1.isEmpty() || amount1.matches( "[a-zA-Z]+" )){
+                    Toast.makeText( getContext(), "wrong details", Toast.LENGTH_LONG ).show();
+                }else{
+                    submitbtn.setVisibility( View.INVISIBLE );
+                    credit_pbar.setVisibility( View.VISIBLE );
+                    sendCreditDataRequest(amount1,amountBy1,recieptNo1,recieptBy1,for1,mode1);
+                }
+//                        1258,sel,12,ser,Food,Cash
+                Log.e( TAG,"Data : "+amount1+","+amountBy1+","+recieptNo1+","+recieptBy1+","+for1+","+mode1);
+                dialog.cancel();
+            }
+        } );
+        cancelbtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+                Toast.makeText( getContext(),"Cancled ", Toast.LENGTH_SHORT ).show();
+
+            }
+        } );
+        dialog.show();
+    }
+
+    private void setCreditRecViewData() {
         //year spinner
         ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource( getContext(),R.array.years, android.R.layout.simple_spinner_item );
         yearSpinnerAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
@@ -187,24 +210,25 @@ public class CreditFragment extends Fragment {
         years_spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setPieChartDialog(chart,CREDITCHARTID,CREDIT_PIE_CENTER_TEXT,CREDIT_PIE_LABEL,years_spinner.getSelectedItem().toString());
-                getCreditDataRequest(years_spinner.getSelectedItem().toString(),months_spinner.getSelectedItem().toString());
+                setDebitPieChartData(chart,CREDITCHARTID,CREDIT_PIE_CENTER_TEXT,CREDIT_PIE_LABEL,years_spinner.getSelectedItem().toString());
                 creditRecPbar.setVisibility( View.GONE );
+                getCreditDataRequest(years_spinner.getSelectedItem().toString(),months_spinner.getSelectedItem().toString());
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 int month = new Date().getMonth();
-                getCreditDataRequest( YEAR,String.valueOf( month ) );
                 creditRecPbar.setVisibility( View.GONE );
+                getCreditDataRequest( YEAR,String.valueOf( month ) );
             }
         } );
         //Month Spinner Change
         months_spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                getCreditDataRequest(years_spinner.getSelectedItem().toString(),months_spinner.getSelectedItem().toString());
                 creditRecPbar.setVisibility( View.GONE );
+                getCreditDataRequest(years_spinner.getSelectedItem().toString(),months_spinner.getSelectedItem().toString());
             }
 
             @Override
@@ -214,95 +238,8 @@ public class CreditFragment extends Fragment {
                 creditRecPbar.setVisibility( View.GONE );
             }
         } );
-//        getCreditDataRequest(months_spinner.getSelectedItem().toString());
 
 
-        /*##########################   On Add Credit Btn Clicked  ##############################*/
-        addCreditBtn  = binding.addCreditBtn;
-        Dialog dialog = new Dialog( getContext() );
-        addCreditBtn.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Button submitbtn, cancelbtn;
-                EditText amount,amountBy,recieptNo,recieptBy;
-                Spinner forSpinner, modeSpinner;
-                ProgressBar credit_pbar;
-                dialog.setContentView( R.layout.add_credit_dialog );
-                dialog.getWindow().setLayout( ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT );
-                dialog.setCancelable( false );
-                dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
-                dialog.getWindow().setBackgroundDrawableResource( android.R.color.transparent );
-
-
-                ArrayAdapter<CharSequence> forAdapter = ArrayAdapter.createFromResource( getContext(),R.array.credit_for, androidx.transition.R.layout.support_simple_spinner_dropdown_item );
-                ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource( getContext(),R.array.credit_mode, com.airbnb.lottie.R.layout.support_simple_spinner_dropdown_item );
-
-                forAdapter.setDropDownViewResource( androidx.appcompat.R.layout.support_simple_spinner_dropdown_item );
-                modeAdapter.setDropDownViewResource( androidx.appcompat.R.layout.support_simple_spinner_dropdown_item );
-                //                finding EditText Views
-                amount = dialog.findViewById( R.id.credit_amount );
-                amountBy = dialog.findViewById( R.id.credit_amount_by );
-                recieptBy = dialog.findViewById( R.id.credit_reciept_by );
-                recieptNo = dialog.findViewById( R.id.credit_reciept_no );
-                //setting Spinners
-                forSpinner = dialog.findViewById( R.id.credit_for_spinner );
-                modeSpinner = dialog.findViewById( R.id.credit_mode_spinner );
-                credit_pbar = dialog.findViewById( R.id.credit_pbar );
-
-                forSpinner.setAdapter( forAdapter );
-                modeSpinner.setAdapter( modeAdapter );
-
-
-//                setting Button Click
-                submitbtn = dialog.findViewById( R.id.add_credit );
-                cancelbtn = dialog.findViewById( R.id.cancel_credit );
-                submitbtn.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String amount1 = amount.getText().toString().trim();
-                        String amountBy1 = amountBy.getText().toString().trim();
-                        String recieptBy1 = recieptBy.getText().toString().trim();
-                        String recieptNo1 = recieptNo.getText().toString().trim();
-                        String for1 = forSpinner.getSelectedItem().toString();
-                        String mode1 = modeSpinner.getSelectedItem().toString();
-                        if(amount1.isEmpty() || amountBy1.isEmpty() || recieptBy1.isEmpty() || recieptNo1.isEmpty() || for1.isEmpty() || mode1.isEmpty() || amount1.matches( "[a-zA-Z]+" )){
-
-                            Toast.makeText( getContext(), "wrong details", Toast.LENGTH_LONG ).show();
-                        }else{
-
-                            submitbtn.setVisibility( View.INVISIBLE );
-                            credit_pbar.setVisibility( View.VISIBLE );
-                            makeRequest(amount1,amountBy1,recieptBy1,recieptNo1,for1,mode1);
-                        }
-//                        Toast.makeText( getContext(),"Data : "+amount1+","+amountBy1+","+recieptNo1+","+recieptBy1+","+for1+","+mode1+",", Toast.LENGTH_LONG ).show();
-                        dialog.cancel();
-                    }
-                } );
-                cancelbtn.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.cancel();
-                        Toast.makeText( getContext(),"Cancled ", Toast.LENGTH_SHORT ).show();
-
-                    }
-                } );
-                dialog.show();
-            }
-        } );
-
-        /*##########################   Credit Data PieChart Stuff   ##############################*/
-        chart = binding.creditPieChart;
-        creditCreditPbar = binding.creditCreditPbar;
-        chart.setVisibility( View.GONE );
-        creditCreditPbar.setVisibility( View.VISIBLE );
-        setPieChartDialog(chart,CREDITCHARTID,CREDIT_PIE_CENTER_TEXT,CREDIT_PIE_LABEL,YEAR);
-
-
-
-
-//        final TextView textView = binding.textDashboard;
-//        dashboardViewModel.getText().observe( getViewLifecycleOwner(), textView::setText );
-        return root;
     }
 
     /**
@@ -312,9 +249,11 @@ public class CreditFragment extends Fragment {
      * @param centerText text to set in center of the PieChart
      * @param label to set label of the chart
      */
-    private void setPieChartDialog(PieChart chart,int tableId,String centerText,String label,String year) {
+
+    private void setDebitPieChartData(PieChart chart,int tableId,String centerText,String label,String year) {
         ArrayList<PieEntry> pieChartData = new ArrayList<>();
 
+        RequestQueue queue = Volley.newRequestQueue( getContext() );
         StringRequest request = new StringRequest( Request.Method.POST, GETSETURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -441,17 +380,18 @@ public class CreditFragment extends Fragment {
     {
 
 
+        RequestQueue queue = Volley.newRequestQueue( getContext() );
         StringRequest request = new StringRequest( Request.Method.POST, GETSETURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
                 if(response.contains( "Expired" ) || response.contains( "Token" ) || response.contains( "Invalid" )){
-                    Toast.makeText( getActivity(), "Token Expired Refreshing...", Toast.LENGTH_LONG ).show();
+                    Toast.makeText( getContext(), "Token Expired Refreshing...", Toast.LENGTH_LONG ).show();
                     startActivity( new Intent(getActivity(),SplashActivity.class) );
                     getActivity().finish();
                 }else if(response.contains( "error" ) || response.contains( "Error" )) {
-                    Toast.makeText( getActivity(), getResources().getString( R.string.error500 ), Toast.LENGTH_LONG ).show();
+                    Toast.makeText( getContext(), getResources().getString( R.string.error500 ), Toast.LENGTH_LONG ).show();
                 }else if(response.contains( "cr_id" )){
                     CreditModel[] data = gson.fromJson( response,CreditModel[].class );
                     recyclerView.setLayoutManager(new LinearLayoutManager( getContext() ) );
@@ -459,15 +399,15 @@ public class CreditFragment extends Fragment {
                     recyclerView.setAdapter( creditAdapter );
 
                 }else if(response.contains( "[]" )){
-                    Toast.makeText( getActivity(), getResources().getString( R.string.nodatafound ), Toast.LENGTH_LONG ).show();
+                    Toast.makeText( getContext(), getResources().getString( R.string.nodatafound ), Toast.LENGTH_LONG ).show();
                 }else{
-                    Toast.makeText( getActivity(), getResources().getString( R.string.unknownerror ), Toast.LENGTH_LONG ).show();
+                    Toast.makeText( getContext(), getResources().getString( R.string.unknownerror ), Toast.LENGTH_LONG ).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText( getActivity(), getResources().getString( R.string.error500 ), Toast.LENGTH_LONG ).show();
+                Toast.makeText( getContext(), getResources().getString( R.string.error500 ), Toast.LENGTH_LONG ).show();
                 Log.e( "me", error.toString());
             }
         } ){
@@ -494,29 +434,32 @@ public class CreditFragment extends Fragment {
         queue.add( request );
     }
 
-    private void makeRequest(String amount, String by, String recNo, String recBy, String for1, String mode)
+    private void sendCreditDataRequest(String amount, String by, String recNo, String recBy, String for1, String mode)
     {
 
+        RequestQueue queue =Volley.newRequestQueue( getContext() );
         StringRequest request = new StringRequest( Request.Method.POST, GETSETURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
                 if(response.contains( "Inserted Successfully" )){
-                    Toast.makeText( getActivity(), getResources().getString( R.string.insertedsuccessfully ), Toast.LENGTH_LONG ).show();
+                    Toast.makeText( getContext(), getResources().getString( R.string.insertedsuccessfully ), Toast.LENGTH_LONG ).show();
+                    dialog.dismiss();
+                    setCreditRecViewData();
                 }else if(response.contains( "Expired" ) || response.contains( "Token" ) || response.contains( "Invalid" )){
                     Toast.makeText( getActivity(), "Token Expired Refreshing...", Toast.LENGTH_LONG ).show();
                     startActivity( new Intent(getActivity(),SplashActivity.class) );
                     getActivity().finish();
                 }else {
-                    Toast.makeText( getActivity(), getResources().getString( R.string.error500 ), Toast.LENGTH_LONG ).show();
+                    Toast.makeText( getContext(), getResources().getString( R.string.error500 ), Toast.LENGTH_LONG ).show();
                 }
                 Log.e( "me", response );
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText( getActivity(), getResources().getString( R.string.error500 ), Toast.LENGTH_LONG ).show();
+                Toast.makeText( getContext(), getResources().getString( R.string.error500 ), Toast.LENGTH_LONG ).show();
                 Log.e( "me", error.toString());
             }
         } ){
@@ -541,11 +484,14 @@ public class CreditFragment extends Fragment {
                 map.put("mode",mode );
                 map.put("for",for1 );
 
+//                action=setCreditData&amount=125&by=me&for=food&rec_no=5&rec_by=red&mode=cash
+
                 return map;
             }
         };
         queue.add( request );
     }
+
 
     @Override
     public void onDestroyView() {

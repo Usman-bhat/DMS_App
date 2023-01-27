@@ -9,8 +9,11 @@ import static com.usman.dms.StaticData.TAG;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -30,6 +33,7 @@ import com.usman.dms.models.ErrorResponseModel;
 import com.usman.dms.models.LoginResponseModel;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
@@ -45,6 +49,7 @@ public class SplashActivity extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences( LOGINSP,MODE_PRIVATE );
         SharedPreferences.Editor spEditor = sp.edit();
+        setLangSP(SplashActivity.this);
 
         if(!(sp.contains( ACCESS_TOKEN_SP )&& sp.contains( REFRESH_TOKEN_SP ))){
             Log.e( "me", "onCreate: not in sp " );
@@ -148,5 +153,25 @@ public class SplashActivity extends AppCompatActivity {
 
         }
 
+    }
+    private void setLocalLang(Activity activity, String lang) {
+        Locale locale1 = new Locale( lang );
+        Locale.setDefault( locale1 );
+
+        Resources resources = activity.getResources();
+
+        Configuration configuration = resources.getConfiguration();
+        configuration.locale = locale1;
+        resources.updateConfiguration( configuration,resources.getDisplayMetrics() );
+
+        SharedPreferences.Editor editor = getSharedPreferences( "Settings",MODE_PRIVATE ).edit();
+        editor.putString( "app_lang",lang );
+        editor.commit();
+    }
+
+    void setLangSP(Activity activity){
+        SharedPreferences sp = getSharedPreferences( "Settings",MODE_PRIVATE );
+        String lFromSp = sp.getString( "app_lang","" );
+        setLocalLang( activity,lFromSp );
     }
 }

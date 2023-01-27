@@ -82,7 +82,7 @@
 <!--    PDF-->
     <string name="date">Date</string>
     <string name="pdf_header">Report of amount debited for expenses for month</string>
-    <string name="pdf_footer">This report is generated Digitally and is not valid with out the signeature and seal of mohtamim of the madrasa.</string>
+    <string name="pdf_footer">This report is generated Digitally and is not valid with out the signature and seal of mohtamim of the madrasa.</string>
     <string name="debited_for">Debited For</string>
 
     <string-array name="months">
@@ -102,6 +102,7 @@
 
     <string-array name="years">
         <item>2023</item>
+        <item>2024</item>
         <item>2022</item>
     </string-array>
 </resources>

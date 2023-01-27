@@ -48,7 +48,7 @@
                         android:textSize="20dp"
                         android:gravity="center"
                         android:fontFamily="@font/noorikshda"
-                        android:text="مدرسہ مصباح العلوم بٹہ گنڈ\n وئرئناگ اسلام آباد "
+                        android:text="مدرسہ مصباح العلوم بٹہ گنڈ\n ویرئناگ اسلام آباد "
                         android:layout_margin="5dp"/>
                 </LinearLayout>
 

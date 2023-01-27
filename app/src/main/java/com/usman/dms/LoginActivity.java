@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
+                                    Log.e( TAG, "onResponse: "+response  );
                                     GsonBuilder gsonBuilder = new GsonBuilder();
                                     Gson gson = gsonBuilder.create();
                                     if (response.contains( ACCESS_TOKEN_SP )) {

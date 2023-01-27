@@ -1,10 +1,14 @@
 package com.usman.dms;
 
+import static com.usman.dms.StaticData.ACCESS_TOKEN_SP;
+import static com.usman.dms.StaticData.LOGINSP;
+import static com.usman.dms.StaticData.REFRESH_TOKEN_SP;
 import static com.usman.dms.StaticData.TAG;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -40,15 +44,19 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         getWindow().setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
-
-        setLangSP(MainActivity.this);
-
         binding = ActivityMainBinding.inflate( getLayoutInflater() );
         setContentView( binding.getRoot() );
         binding.changeLanguage.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showLanguageDialog();
+            }
+        } );
+
+        binding.logoutBtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
             }
         } );
 
@@ -61,6 +69,17 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController( this, R.id.nav_host_fragment_activity_main );
 //        NavigationUI.setupActionBarWithNavController( this, navController, appBarConfiguration );
         NavigationUI.setupWithNavController( binding.navView, navController );
+    }
+
+    private void logout() {
+        SharedPreferences.Editor spEditor = getSharedPreferences( LOGINSP,MODE_PRIVATE ).edit();
+        spEditor.remove( ACCESS_TOKEN_SP );
+        spEditor.remove( REFRESH_TOKEN_SP );
+        spEditor.remove( "user" );
+        spEditor.commit();
+        Intent i=new Intent(MainActivity.this,LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 
     private void showLanguageDialog() {
@@ -128,10 +147,6 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    void setLangSP(Activity activity){
-        SharedPreferences sp = getSharedPreferences( "Settings",MODE_PRIVATE );
-        String lFromSp = sp.getString( "app_lang","" );
-        setLocalLang( activity,lFromSp );
-    }
+
 
 }

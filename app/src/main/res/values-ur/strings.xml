@@ -20,7 +20,7 @@
     <string name="login_password_hint">پاسوڈ</string>
 <!--    home-->
     <string name="creditchart">آمدنی چارٹ</string>
-    <string name="debitchart">آمدنی چارٹ</string>
+    <string name="debitchart">خرچات چارٹ</string>
 <!--    credit f-->
     <string name="given_by_honer">عزت کے ساتھ دیا گیا</string>
     <string name="credit_for">for</string>

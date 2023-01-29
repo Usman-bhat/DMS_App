@@ -13,11 +13,9 @@ public class StaticData
     /**
      * Urls used to connect server
      */
-     public static String URL="http://192.168.1.2";
-//    public static String URL="http://192.168.158.133";
-//     public static String URL="http://192.168.233.133";
-    public static String LOGINURL=URL+"/darasgah_mag/Android_api/login.php";
-    public static String GETSETURL=URL+"/darasgah_mag/Android_api/getSetData.php";
+     public static String URL="https://misbahululoom.000webhostapp.com";
+    public static String LOGINURL=URL+"/Android_api/login.php";
+    public static String GETSETURL=URL+"/Android_api/getSetData.php";
 
 
     /**
